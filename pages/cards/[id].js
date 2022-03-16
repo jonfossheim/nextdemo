@@ -1,6 +1,5 @@
 const Card = ({ data }) => {
   const { name, rarity, setName } = data.card;
-
   return (
     <div>
       <h1>{name}</h1>
@@ -33,7 +32,6 @@ export async function getStaticPaths() {
   const res = await fetch('https://api.magicthegathering.io/v1/cards');
   const data = await res.json();
 
-  console.log(data.cards[0]);
   // Get the paths we want to pre-render based on posts
   const paths = data.cards.map((card) => ({
     params: { id: card.id },
