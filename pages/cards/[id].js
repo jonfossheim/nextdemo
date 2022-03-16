@@ -1,10 +1,9 @@
 const Card = ({ data }) => {
-  const { name, rarity, setName } = data.card;
   return (
     <div>
-      <h1>{name}</h1>
-      <p>{rarity}</p>
-      <p>{setName}</p>
+      <h1>{data?.card?.name}</h1>
+      <p>{data?.card?.rarity}</p>
+      <p>{data?.card?.setName}</p>
     </div>
   );
 };
