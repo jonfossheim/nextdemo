@@ -1,38 +1,32 @@
 import Image from 'next/image';
 import { filterCards } from './index';
+import Head from 'next/head';
 
-const Card = ({ data }) => {
+const Card = ({ data: { card } }) => {
+  const { name, originalText, id, imageUrl, rarity, setName } = card;
   return (
     <div>
-      <h1>Name: {data?.card?.name ? data?.card?.name : 'undefined'}</h1>
-      {data?.card?.imageUrl ? (
-        <Image
-          width={250}
-          height={375}
-          src={data?.card?.imageUrl}
-          alt={data?.card?.name}
-        />
-      ) : null}
+      <Head>
+        <title>MTG: {name}</title>
+        <meta property='og:title' content={originalText} key={id} />
+      </Head>
+      <p>test: {name}</p>
+      <h1>Name: {name}</h1>
 
-      <p>Rarity: {data?.card?.rarity ? data?.card?.rarity : 'undefined'}</p>
-      <p>setName: {data?.card?.setName ? data?.card?.setName : 'undefined'}</p>
+      <Image width={250} height={375} src={imageUrl} alt={name} />
+
+      <p>Rarity: {rarity}</p>
+      <p>setName: {setName}</p>
     </div>
   );
 };
 
-// This function gets called at build time
 export async function getStaticProps(context) {
-  // Call an external API endpoint to get posts
   const { params } = context;
-
   const res = await fetch(
     `https://api.magicthegathering.io/v1/cards/${params.id}`
   );
   const data = await res.json();
-
-  // By returning { props: { posts } }, the Blog component
-  // will receive `posts` as a prop at build time
-
   return {
     props: {
       data,
@@ -54,7 +48,7 @@ export async function getStaticPaths() {
   // We'll pre-render only these paths at build time.
   // { fallback: blocking } will server-render pages
   // on-demand if the path doesn't exist.
-  return { paths, fallback: 'blocking' };
+  return { paths, fallback: false };
 }
 
 export default Card;

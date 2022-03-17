@@ -1,10 +1,19 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import Head from 'next/head';
 
 const Index = ({ cards }) => {
   return (
     <div className='cardsArr'>
+      <Head>
+        <title>MTG: Cards</title>
+        <meta
+          property='og:title'
+          content='Discover all our cards'
+          key='cards'
+        />
+      </Head>
       {cards.map((c, idx) => {
         const { name, imageUrl, id } = c;
         return (
@@ -33,7 +42,6 @@ export async function getStaticProps() {
   // will receive `posts` as a prop at build time
   const temp = data.cards;
   const cards = filterCards(temp);
-
   return {
     props: {
       cards,
