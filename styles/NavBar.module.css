@@ -1,0 +1,18 @@
+.list {
+  padding: 0;
+  background: black;
+  font-family: Arial, sans serif;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.item {
+  display: inline-block;
+}
+
+.text {
+  display: block;
+  padding: 10px;
+  color: white;
+  text-decoration: none;
+}

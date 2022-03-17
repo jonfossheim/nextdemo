@@ -1,16 +1,29 @@
+import Image from 'next/image';
+import { filterCards } from './index';
+
 const Card = ({ data }) => {
   return (
     <div>
-      <h1>{data?.card?.name}</h1>
-      <p>{data?.card?.rarity}</p>
-      <p>{data?.card?.setName}</p>
+      <h1>Name: {data?.card?.name ? data?.card?.name : 'undefined'}</h1>
+      {data?.card?.imageUrl ? (
+        <Image
+          width={250}
+          height={375}
+          src={data?.card?.imageUrl}
+          alt={data?.card?.name}
+        />
+      ) : null}
+
+      <p>Rarity: {data?.card?.rarity ? data?.card?.rarity : 'undefined'}</p>
+      <p>setName: {data?.card?.setName ? data?.card?.setName : 'undefined'}</p>
     </div>
   );
 };
 
 // This function gets called at build time
-export async function getStaticProps({ params }) {
+export async function getStaticProps(context) {
   // Call an external API endpoint to get posts
+  const { params } = context;
 
   const res = await fetch(
     `https://api.magicthegathering.io/v1/cards/${params.id}`
@@ -32,7 +45,9 @@ export async function getStaticPaths() {
   const data = await res.json();
 
   // Get the paths we want to pre-render based on posts
-  const paths = data.cards.map((card) => ({
+  const temp = data.cards;
+  const cards = filterCards(temp);
+  const paths = cards.map((card) => ({
     params: { id: card.id },
   }));
 

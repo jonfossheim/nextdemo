@@ -30,7 +30,7 @@ export async function getServerSideProps() {
 
   // By returning { props: { posts } }, the Blog component
   // will receive `posts` as a prop at build time
-  console.log(data);
+
   const bookings = data.data;
   return {
     props: {
